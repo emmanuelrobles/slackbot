@@ -5,7 +5,7 @@ bot_lines_shh = ['just let it happen', 'watch it burn!!']
 
 def chance(num, fun):
     from random import randrange
-    if randrange(0, 100) > num:
+    if randrange(0, 100) < num:
         fun()
         return True
     return False
