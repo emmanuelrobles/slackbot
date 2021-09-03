@@ -10,14 +10,17 @@ from slack_sdk.socket_mode.request import SocketModeRequest
 from pathlib import Path
 from dotenv import load_dotenv
 
-# client setup
 import const
 import helpers
+
+from routine_messages import goodMorningMessage, preeStandupMessage, noonMessage, goodNightMessage
+
 
 # load env
 env_path = Path('.') / '.env'
 load_dotenv(dotenv_path=env_path)
 
+# client setup
 client = SocketModeClient(
     app_token=os.environ['APP_TOKEN'],
     web_client=WebClient(os.environ['WEB_CLIENT_TOKEN'])
@@ -29,8 +32,12 @@ channel = os.environ['CHANNEL']
 async def main():
     client.socket_mode_request_listeners.append(process)
     client.connect()
+
     weekday_job(goodMorningMessage, '07:00')
-    u = client.web_client.users_list()
+    weekday_job(preeStandupMessage, '10:30')
+    weekday_job(noonMessage, '12:00')
+    weekday_job(goodNightMessage, '17:00')
+
     await scheduler()
     from threading import Event
     Event().wait()
@@ -40,28 +47,13 @@ def weekday_job(x, t=None):
     from datetime import datetime
     week = datetime.today().weekday()
     if t is not None and week < 5:
-        schedule.every().day.at(t).do(x)
+        schedule.every().day.at(t).do(x,client,channel)
 
 
 async def scheduler():
     while True:
         schedule.run_pending()
-        await asyncio.sleep(3)
-
-
-def goodMorningMessage():
-    client.web_client.chat_postMessage(
-        channel=channel,
-        text='Good morning peeps'
-    )
-
-
-def goodNightMessage():
-    client.web_client.chat_postMessage(
-        channel=channel,
-        text='Good night!'
-    )
-
+        await asyncio.sleep(5)
 
 # Message processing
 def processMessage(event: dict, client: SocketModeClient):
@@ -70,7 +62,7 @@ def processMessage(event: dict, client: SocketModeClient):
 
     if isFromPierre and helpers.chance(1):
         client.web_client.chat_postMessage(
-            channel=channel,
+            channel=event["channel"],
             text=random.choice(const.bot_lines_pierre))
         return
     # eyes emojy under pierre msg
@@ -84,14 +76,14 @@ def processMessage(event: dict, client: SocketModeClient):
     # costco line
     if re.match(r'\b(costco|jason|bowers)\b', event['text'].lower()):
         client.web_client.chat_postMessage(
-            channel=channel,
+            channel=event["channel"],
             text=random.choice(const.bot_lines)
         )
         return
     # shhh line
     if re.match(r'\bshhh*\b', event['text'].lower()):
         client.web_client.chat_postMessage(
-            channel=channel,
+            channel=event["channel"],
             text=random.choice(const.bot_lines_shh),
             attachments=[
                 {
@@ -104,7 +96,7 @@ def processMessage(event: dict, client: SocketModeClient):
     # FE cache
     if re.match(r'^(?=.*\b(cache|add|put)\b)(?=.*\b(frontend|front end|fe)\b).*$', event['text'].lower()):
         client.web_client.chat_postMessage(
-            channel=channel,
+            channel=event["channel"],
             text='yea, lets put it there',
             attachments=[
                 {
@@ -117,7 +109,7 @@ def processMessage(event: dict, client: SocketModeClient):
     # beach
     if re.match(r'^(?=.*\b(going|heading|time)\b)(?=.*\b(beach|playa)\b).*$', event['text'].lower()):
         client.web_client.chat_postMessage(
-            channel=channel,
+            channel=event["channel"],
             text='how about no?',
             attachments=[
                 {
@@ -125,6 +117,13 @@ def processMessage(event: dict, client: SocketModeClient):
                     "image_url": "https://media2.giphy.com/media/W3Ch3vjHi5FGefDT0G/giphy.gif?cid=ecf05e47z6a9knf03kh82yhhn3sqxq5zj7k2e85nnnmq00ls&rid=giphy.gif&ct=g"
                 }
             ]
+        )
+        return
+    # picture
+    if re.match(r'(:bowers:)', event['text'].lower()):
+        client.web_client.chat_postMessage(
+            channel=event["channel"],
+            text=random.choice(const.bot_lines_hate_pic)
         )
         return
 
