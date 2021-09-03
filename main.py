@@ -24,10 +24,12 @@ client = SocketModeClient(
 
 channel = os.environ['CHANNEL']
 
+
 async def main():
     client.socket_mode_request_listeners.append(process)
     client.connect()
     weekday_job(goodMorningMessage, '07:00')
+    u = client.web_client.users_list()
     await scheduler()
     from threading import Event
     Event().wait()
@@ -65,23 +67,27 @@ def processMessage(event: dict, client: SocketModeClient):
     # if the message is from Pierre's user
     isFromPierre = event['user'] == 'U02DYBFSED6'
 
-    if isFromPierre and helpers.chance(1, lambda: client.web_client.chat_postMessage(
+    if isFromPierre and helpers.chance(1):
+        client.web_client.chat_postMessage(
             channel=channel,
-            text=random.choice(helpers.bot_lines_pierre))):
+            text=random.choice(helpers.bot_lines_pierre))
         return
-    if "pierre" in event['text'].lower():
+    # eyes emojy under pierre msg
+    if re.match(r'\b(pierre)\b', event['text'].lower()) and event['user'] != 'U02CUDGHJ0P' and helpers.chance(50):
         client.web_client.reactions_add(
             name="eyes",
             channel=event["channel"],
             timestamp=event["ts"]
         )
         return
-    if re.match('costco|jason', event['text'].lower()):
+    # costco line
+    if re.match(r'\b(costco|jason|bowers)\b', event['text'].lower()):
         client.web_client.chat_postMessage(
             channel=channel,
             text=random.choice(helpers.bot_lines)
         )
         return
+    # shhh line
     if re.match(r'\bshhh*\b', event['text'].lower()):
         client.web_client.chat_postMessage(
             channel=channel,
@@ -94,6 +100,7 @@ def processMessage(event: dict, client: SocketModeClient):
             ]
         )
         return
+    # FE cache
     if re.match(r'^(?=.*\b(cache|add|put)\b)(?=.*\b(frontend|front end|fe)\b).*$', event['text'].lower()):
         client.web_client.chat_postMessage(
             channel=channel,
@@ -106,6 +113,7 @@ def processMessage(event: dict, client: SocketModeClient):
             ]
         )
         return
+    # beach
     if re.match(r'^(?=.*\b(going|heading|time)\b)(?=.*\b(beach|playa)\b).*$', event['text'].lower()):
         client.web_client.chat_postMessage(
             channel=channel,

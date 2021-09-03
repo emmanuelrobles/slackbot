@@ -3,9 +3,8 @@ bot_lines_pierre = ['Hey pierre, do you miss me?', 'We gotta talk about Pierre',
 bot_lines_shh = ['just let it happen', 'watch it burn!!']
 
 
-def chance(num, fun):
+def chance(num):
     from random import randrange
     if randrange(0, 100) < num:
-        fun()
         return True
     return False
