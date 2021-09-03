@@ -60,7 +60,7 @@ def processMessage(event: dict, client: SocketModeClient):
     # if the message is from Pierre's user
     isFromPierre = event['user'] == 'U02DYBFSED6'
 
-    if isFromPierre and helpers.chance(1):
+    if isFromPierre and helpers.chance(5):
         client.web_client.chat_postMessage(
             channel=event["channel"],
             text=random.choice(const.bot_lines_pierre))
