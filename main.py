@@ -11,6 +11,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 
 # client setup
+import const
 import helpers
 
 # load env
@@ -70,7 +71,7 @@ def processMessage(event: dict, client: SocketModeClient):
     if isFromPierre and helpers.chance(1):
         client.web_client.chat_postMessage(
             channel=channel,
-            text=random.choice(helpers.bot_lines_pierre))
+            text=random.choice(const.bot_lines_pierre))
         return
     # eyes emojy under pierre msg
     if re.match(r'\b(pierre)\b', event['text'].lower()) and event['user'] != 'U02CUDGHJ0P' and helpers.chance(50):
@@ -84,14 +85,14 @@ def processMessage(event: dict, client: SocketModeClient):
     if re.match(r'\b(costco|jason|bowers)\b', event['text'].lower()):
         client.web_client.chat_postMessage(
             channel=channel,
-            text=random.choice(helpers.bot_lines)
+            text=random.choice(const.bot_lines)
         )
         return
     # shhh line
     if re.match(r'\bshhh*\b', event['text'].lower()):
         client.web_client.chat_postMessage(
             channel=channel,
-            text=random.choice(helpers.bot_lines_shh),
+            text=random.choice(const.bot_lines_shh),
             attachments=[
                 {
                     "fallback": ":)",
