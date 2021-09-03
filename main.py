@@ -82,7 +82,19 @@ def processMessage(event: dict, client: SocketModeClient):
             text=random.choice(helpers.bot_lines)
         )
         return
-    if re.match('^(?=.*(cache|add|put))(?=.*(frontend|front end|fe)).*$', event['text'].lower()):
+    if re.match(r'\bshhh*\b', event['text'].lower()):
+        client.web_client.chat_postMessage(
+            channel=channel,
+            text=random.choice(helpers.bot_lines_shh),
+            attachments=[
+                {
+                    "fallback": ":)",
+                    "image_url": "https://media4.giphy.com/media/EKDIMDsRX3ihy/giphy.gif?cid=ecf05e47qjya842xz1a1lgv6kuk7h039bb0ak9qijue227gi&rid=giphy.gif&ct=g"
+                }
+            ]
+        )
+        return
+    if re.match(r'^(?=.*\b(cache|add|put)\b)(?=.*\b(frontend|front end|fe)\b).*$', event['text'].lower()):
         client.web_client.chat_postMessage(
             channel=channel,
             text='yea, lets put it there',
@@ -94,7 +106,7 @@ def processMessage(event: dict, client: SocketModeClient):
             ]
         )
         return
-    if re.match('^(?=.*(going|heading|time))(?=.*(beach|playa)).*$', event['text'].lower()):
+    if re.match(r'^(?=.*\b(going|heading|time)\b)(?=.*\b(beach|playa)\b).*$', event['text'].lower()):
         client.web_client.chat_postMessage(
             channel=channel,
             text='how about no?',
