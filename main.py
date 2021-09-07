@@ -10,11 +10,10 @@ from slack_sdk.socket_mode.request import SocketModeRequest
 from pathlib import Path
 from dotenv import load_dotenv
 
-import const
-import helpers
+from consts import lines
+import incoming_messages
 
 from routine_messages import goodMorningMessage, preeStandupMessage, noonMessage, goodNightMessage
-
 
 # load env
 env_path = Path('.') / '.env'
@@ -32,7 +31,6 @@ channel = os.environ['CHANNEL']
 async def main():
     client.socket_mode_request_listeners.append(process)
     client.connect()
-
     weekday_job(goodMorningMessage, '07:00')
     weekday_job(preeStandupMessage, '10:30')
     weekday_job(noonMessage, '12:00')
@@ -47,7 +45,7 @@ def weekday_job(x, t=None):
     from datetime import datetime
     week = datetime.today().weekday()
     if t is not None and week < 5:
-        schedule.every().day.at(t).do(x,client,channel)
+        schedule.every().day.at(t).do(x, client, channel)
 
 
 async def scheduler():
@@ -55,77 +53,16 @@ async def scheduler():
         schedule.run_pending()
         await asyncio.sleep(5)
 
-# Message processing
-def processMessage(event: dict, client: SocketModeClient):
-    # if the message is from Pierre's user
-    isFromPierre = event['user'] == 'U02DYBFSED6'
 
-    if isFromPierre and helpers.chance(5):
-        client.web_client.chat_postMessage(
-            channel=event["channel"],
-            text=random.choice(const.bot_lines_pierre))
-        return
-    # eyes emojy under pierre msg
-    if re.match(r'\b(pierre)\b', event['text'].lower()) and event['user'] != 'U02CUDGHJ0P' and helpers.chance(50):
-        client.web_client.reactions_add(
-            name="eyes",
-            channel=event["channel"],
-            timestamp=event["ts"]
-        )
-        return
-    # costco line
-    if re.match(r'\b(costco|jason|bowers)\b', event['text'].lower()):
-        client.web_client.chat_postMessage(
-            channel=event["channel"],
-            text=random.choice(const.bot_lines)
-        )
-        return
-    # shhh line
-    if re.match(r'\bshhh*\b', event['text'].lower()):
-        client.web_client.chat_postMessage(
-            channel=event["channel"],
-            text=random.choice(const.bot_lines_shh),
-            attachments=[
-                {
-                    "fallback": ":)",
-                    "image_url": "https://media4.giphy.com/media/EKDIMDsRX3ihy/giphy.gif?cid=ecf05e47qjya842xz1a1lgv6kuk7h039bb0ak9qijue227gi&rid=giphy.gif&ct=g"
-                }
-            ]
-        )
-        return
-    # FE cache
-    if re.match(r'^(?=.*\b(cache|add|put)\b)(?=.*\b(frontend|front end|fe)\b).*$', event['text'].lower()):
-        client.web_client.chat_postMessage(
-            channel=event["channel"],
-            text='yea, lets put it there',
-            attachments=[
-                {
-                    "fallback": ":)",
-                    "image_url": "https://media0.giphy.com/media/8wb5IPi03CM1gzjWm6/giphy.gif?cid=790b76110caa0045ebd55d910d5ffc79502c741300864090&rid=giphy.gif&ct=g "
-                }
-            ]
-        )
-        return
-    # beach
-    if re.match(r'^(?=.*\b(going|heading|time)\b)(?=.*\b(beach|playa)\b).*$', event['text'].lower()):
-        client.web_client.chat_postMessage(
-            channel=event["channel"],
-            text='how about no?',
-            attachments=[
-                {
-                    "fallback": "back to work",
-                    "image_url": "https://media2.giphy.com/media/W3Ch3vjHi5FGefDT0G/giphy.gif?cid=ecf05e47z6a9knf03kh82yhhn3sqxq5zj7k2e85nnnmq00ls&rid=giphy.gif&ct=g"
-                }
-            ]
-        )
-        return
-    # picture
-    if re.match(r'(:bowers:)', event['text'].lower()):
-        client.web_client.chat_postMessage(
-            channel=event["channel"],
-            text=random.choice(const.bot_lines_hate_pic)
-        )
-        return
+# Message processing
+def process_message(event: dict, client: SocketModeClient):
+    incoming_messages.pierre_messages(event, client)
+    incoming_messages.eye_reaction_message(event, client)
+    incoming_messages.costco_lines(event, client)
+    incoming_messages.shhh_line(event, client)
+    incoming_messages.cache_emoji(event, client)
+    incoming_messages.beach_emoji(event, client)
+    incoming_messages.pic_mad_reaction(event, client)
 
 
 # Process events
@@ -138,7 +75,7 @@ def process(client: SocketModeClient, req: SocketModeRequest):
         # Add a reaction to the message if it's a new message
         if req.payload["event"]["type"] == "message" \
                 and req.payload["event"].get("subtype") is None:
-            processMessage(req.payload["event"], client)
+            process_message(req.payload["event"], client)
 
 
 asyncio.run(main())
