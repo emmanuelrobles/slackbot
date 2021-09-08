@@ -7,5 +7,6 @@ bot_lines_good_night = ['Good night!', 'Good night everyone']
 bot_lines_noon = ['Time to get some lunch', 'Who is ready for a presentation and free lunch!']
 bot_lines_pre_standup = ['Are you guys writing unit test?', 'dont forget the stand-up!','I almost got struck by a lightning','Cisco no beach for you, time for the stan-dup' ]
 bot_lines_bugs = ['thats why we need 98% code coverage', 'you didnt test that, FOR SURE!!','Someone forgot the unit test','{name} i have another unit test meeting, just for you' ]
+bot_lines_fire = ['you guys are doomed', 'Pierre that\'s why you should have a postman collection','This is not fine :fire:']
 
 

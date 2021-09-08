@@ -96,10 +96,26 @@ def pic_mad_reaction(event: dict, client):
             text=random.choice(lines.bot_lines_hate_pic).format(name=users.get_a_name(event['user']))
         )
 
+
 # reaction to bug
 def pic_bug(event: dict, client):
     if re.match(r'(#bug)', event['text'], re.IGNORECASE):
         client.web_client.chat_postMessage(
             channel=event["channel"],
             text=random.choice(lines.bot_lines_bugs).format(name=users.get_a_name(event['user']))
+        )
+
+
+def pic_fire(event: dict, client):
+    if re.match(r'(#fire)', event['text'], re.IGNORECASE):
+        client.web_client.chat_postMessage(
+            channel=event["channel"],
+            text=random.choice(lines.bot_lines_fire).format(name=users.get_a_name(event['user'])),
+            attachments=[
+                {
+                    "fallback": "fire",
+                    "image_url": "https://media0.giphy.com/media/9M5jK4GXmD5o1irGrF/giphy.gif?cid"
+                                 "=ecf05e47td2z01plekh551t52xz2sefwximdhqmvcd1e4iae&rid=giphy.gif&ct=g "
+                }
+            ]
         )

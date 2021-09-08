@@ -64,6 +64,7 @@ def process_message(event: dict, client: SocketModeClient):
     incoming_messages.beach_emoji(event, client)
     incoming_messages.pic_mad_reaction(event, client)
     incoming_messages.pic_bug(event, client)
+    incoming_messages.pic_fire(event, client)
 
 
 # Process events
