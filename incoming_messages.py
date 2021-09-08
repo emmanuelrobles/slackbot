@@ -103,3 +103,5 @@ def pic_bug(event: dict, client):
             channel=event["channel"],
             text=random.choice(lines.bot_lines_bugs).format(name=users.get_a_name(event['user']))
         )
+
+
