@@ -5,6 +5,7 @@ bot_lines_hate_pic = ['Hey, who gave you that picture', 'Stop it!', "{name}!!!!!
 bot_lines_good_morning = ['Good morning peeps', 'Good morning everyone', 'Pierre get your coffee, im going to call you in a bit']
 bot_lines_good_night = ['Good night!', 'Good night everyone']
 bot_lines_noon = ['Time to get some lunch', 'Who is ready for a presentation and free lunch!']
-bot_lines_pre_standup = ['Are you guys writing unit test?', 'dont forget the stand-up!','I almost got struck by a lightning']
+bot_lines_pre_standup = ['Are you guys writing unit test?', 'dont forget the stand-up!','I almost got struck by a lightning','Cisco no beach for you, time for the stan-dup' ]
+bot_lines_bugs = ['thats why we need 98% code coverage', 'you didnt test that, FOR SURE!!','Someone forgot the unit test','{name} i have another unit test meeting, just for you' ]
 
 

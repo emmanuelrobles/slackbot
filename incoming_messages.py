@@ -95,3 +95,11 @@ def pic_mad_reaction(event: dict, client):
             channel=event["channel"],
             text=random.choice(lines.bot_lines_hate_pic).format(name=users.get_a_name(event['user']))
         )
+
+# reaction to bug
+def pic_bug(event: dict, client):
+    if re.match(r'(#bug)', event['text'], re.IGNORECASE):
+        client.web_client.chat_postMessage(
+            channel=event["channel"],
+            text=random.choice(lines.bot_lines_bugs).format(name=users.get_a_name(event['user']))
+        )
