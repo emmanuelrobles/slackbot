@@ -77,3 +77,31 @@ def bug_found_line(message: RequestMessage) -> ResponseMessage:
                            text=random.choice(
                                lines.bot_lines_bugs).format(name=users.get_a_name(message.get_user_id()))
                            )
+
+
+def good_morning_message(channel: str) -> ResponseMessage:
+    return ResponseMessage(message_type=ResponseMessageType.MESSAGE,
+                           channel=channel,
+                           text=random.choice(lines.bot_lines_good_morning)
+                           )
+
+
+def good_night_message(channel: str) -> ResponseMessage:
+    return ResponseMessage(message_type=ResponseMessageType.MESSAGE,
+                           channel=channel,
+                           text=random.choice(lines.bot_lines_good_night)
+                           )
+
+
+def noon_message(channel: str) -> ResponseMessage:
+    return ResponseMessage(message_type=ResponseMessageType.MESSAGE,
+                           channel=channel,
+                           text=random.choice(lines.bot_lines_noon)
+                           )
+
+
+def pre_stand_up_message(channel: str) -> ResponseMessage:
+    return ResponseMessage(message_type=ResponseMessageType.MESSAGE,
+                           channel=channel,
+                           text=random.choice(lines.bot_lines_pre_standup)
+                           )
