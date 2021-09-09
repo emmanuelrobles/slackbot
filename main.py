@@ -1,31 +1,24 @@
 import asyncio
-from collections import namedtuple
-import rx.subject
+
+import rx
 import schedule
-import re
-import random
 import os
-from rx import Observable
 from rx import operators as ops
-from pathlib import Path
-from dotenv import load_dotenv
-
-from bot_init.slackbot import slack_bot_init
-from consts import lines
-import incoming_messages
-from routine_messages import goodMorningMessage, preeStandupMessage, noonMessage, goodNightMessage
-from models.requestmessage import RequestMessage
-
-import bot_init
+from bot_init.slackbot import Slackbot
+from messages.handler import message_handler
 
 
 async def main():
 
-    observable = slack_bot_init()
+    bot = Slackbot()
+    observable = message_handler(bot.get_stream())
 
     observable.pipe(
-        ops.do_action(lambda msg: print(msg.get_text()))
-    ).subscribe()
+        ops.do_action(lambda res: print(res.get_text())),
+        ops.do_action(lambda res: bot.send_message(res))
+    ).subscribe(
+        on_error=lambda err: print(err)
+    )
 
 
 
