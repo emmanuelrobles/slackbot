@@ -63,7 +63,7 @@ def beach_line(message: RequestMessage) -> ResponseMessage:
                            ])
 
 
-def bot_pic_line(message: RequestMessage) -> ResponseMessage:
+def bot_pic_mad_line(message: RequestMessage) -> ResponseMessage:
     return ResponseMessage(message_type=ResponseMessageType.MESSAGE,
                            channel=message.get_channel(),
                            text=random.choice(
@@ -71,7 +71,7 @@ def bot_pic_line(message: RequestMessage) -> ResponseMessage:
                            )
 
 
-def bug_line(message: RequestMessage) -> ResponseMessage:
+def bug_found_line(message: RequestMessage) -> ResponseMessage:
     return ResponseMessage(message_type=ResponseMessageType.MESSAGE,
                            channel=message.get_channel(),
                            text=random.choice(

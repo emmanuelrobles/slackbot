@@ -1,33 +1,26 @@
 import re
-from re import Pattern
 
-import helpers
-from consts.users import UsersEnums
-from messages.bot_messages import add_reaction_eyes, pierre_response_message
+import messages.bot_message_cases as cases
+import messages.bot_messages as bot
 from models.messages import RequestMessage
 
 
-def get_messages(message: RequestMessage) -> [(bool, callable)]:
-    message_func = lazy(message)
+def get_messages(message: RequestMessage) -> [(callable, callable)]:
+    message_func = __lazy(message)
     return [
-        (bool(is_regex_match(r'\b(pierre)\b', message.get_text())) and
-         (not is_from_user(message, UsersEnums.SLACKBOT)) and
-         helpers.chance(50), message_func(add_reaction_eyes)),
 
-        (is_from_user(message, UsersEnums.PIERRE)
-         and helpers.chance(5), message_func(pierre_response_message))
+        (message_func(cases.case_add_eye_reaction), message_func(bot.add_reaction_eyes)),
+        (message_func(cases.case_pierre_response), message_func(bot.pierre_response_message)),
+        (message_func(cases.case_bot_lines), message_func(bot.bot_lines)),
+        (message_func(cases.case_shh_line), message_func(bot.shh_line)),
+        (message_func(cases.case_cache_fe_line), message_func(bot.cache_line)),
+        (message_func(cases.case_beach_line), message_func(bot.beach_line)),
+        (message_func(cases.case_picture_mad_line), message_func(bot.bot_pic_mad_line)),
+        (message_func(cases.case_bug_found_line), message_func(bot.bug_found_line)),
     ]
 
 
-def is_regex_match(pattern: str, text: str):
-    return re.match(pattern, text, re.IGNORECASE)
-
-
-def is_from_user(message: RequestMessage, user_id: str) -> bool:
-    return message.get_user_id() == user_id
-
-
-def lazy(message: RequestMessage):
+def __lazy(message: RequestMessage):
     def lazy_helper(func):
         def void_func():
             return func(message)
@@ -35,3 +28,4 @@ def lazy(message: RequestMessage):
         return void_func
 
     return lazy_helper
+
