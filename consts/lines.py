@@ -1,6 +1,8 @@
 bot_lines = ['hey peeps :fire:', 'what do you need?', 'ohh, do you wanna hear a joke?']
 bot_lines_pierre = ['Hey {name}, do you miss me?', 'We gotta talk about', 'That\'s it, {name} im calling you after 5']
 bot_lines_shh = ['just let it happen', 'watch it burn!!']
+bot_lines_cache = ['Listen to {name}','yea, lets put it there']
+bot_lines_beach = ['{name} get back to work','How about no!']
 bot_lines_hate_pic = ['Hey, who gave you that picture', 'Stop it!', "{name}!!!!!!!!!!!"]
 bot_lines_good_morning = ['Good morning peeps', 'Good morning everyone', 'Pierre get your coffee, im going to call you in a bit']
 bot_lines_good_night = ['Good night!', 'Good night everyone']

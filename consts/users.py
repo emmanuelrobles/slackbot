@@ -1,4 +1,5 @@
 import random
+from enum import Enum
 
 _user = {
     'U02D2HE7WMC': {
@@ -31,5 +32,22 @@ _user = {
 def get_all_names(id: str):
     return _user[id]['names']
 
+
 def get_a_name(id: str):
-   return random.choice( _user[id]['names'])
+    return random.choice(_user[id]['names'])
+
+
+class UsersEnums(str,Enum):
+    PIERRE = 'U02DYBFSED6'
+    EMMANUEL = 'U02D5NAHU1K'
+    CK = 'U02D2HE7WMC'
+    KLAJDI = 'U02D996Q51R'
+    FRANCISCO = 'U02D98KAGHG'
+    KEN = 'U02D99D0DA6'
+    JARED = 'U02DMBMJLQH'
+    SLACKBOT = 'U02CUDGHJ0P'
+
+    def __str__(self):
+        return str(self.value)
+
+
