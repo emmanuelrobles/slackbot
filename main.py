@@ -1,6 +1,4 @@
 import asyncio
-
-import rx
 import schedule
 import os
 from rx import operators as ops
@@ -11,11 +9,11 @@ from messages.handler import message_handler
 async def main():
 
     bot = Slackbot()
+
     observable = message_handler(bot.get_stream())
 
     observable.pipe(
-        ops.do_action(lambda res: print(res.get_text())),
-        ops.do_action(lambda res: bot.send_message(res))
+        ops.do_action(lambda res: bot.send_message(res)),
     ).subscribe(
         on_error=lambda err: print(err)
     )

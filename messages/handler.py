@@ -3,7 +3,7 @@ from typing import Optional
 
 from rx import Observable
 from rx import operators as ops
-from messages.messages_map import get_messages
+from bot_messages.messages_map import get_messages
 from models.messages import RequestMessage, ResponseMessage
 
 
@@ -16,6 +16,6 @@ def message_handler(observable: Observable):
 
 def __handle(message: RequestMessage) -> Optional[ResponseMessage]:
     messages = get_messages(message)
-    for val in messages:
-        if val[0]:
-            return val[1]()
+    for tuple_bool_func in messages:
+        if tuple_bool_func[0]:
+            return tuple_bool_func[1]()

@@ -3,7 +3,7 @@ from re import Pattern
 
 import helpers
 from consts.users import UsersEnums
-from messages.messages import add_reaction_eyes, pierre_response_message
+from messages.bot_messages import add_reaction_eyes, pierre_response_message
 from models.messages import RequestMessage
 
 
