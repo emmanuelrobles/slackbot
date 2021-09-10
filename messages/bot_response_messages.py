@@ -39,7 +39,7 @@ def cache_line(message: RequestMessage) -> ResponseMessage:
     return ResponseMessage(message_type=ResponseMessageType.MESSAGE,
                            channel=message.get_channel(),
                            text=random.choice(
-                               lines.bot_lines_cache.format(name=users.get_a_name(message.get_user_id()))),
+                               lines.bot_lines_cache).format(name=users.get_a_name(message.get_user_id())),
                            attachments=[
                                {
                                    "fallback": ":)",
@@ -53,7 +53,7 @@ def beach_line(message: RequestMessage) -> ResponseMessage:
     return ResponseMessage(message_type=ResponseMessageType.MESSAGE,
                            channel=message.get_channel(),
                            text=random.choice(
-                               lines.bot_lines_beach.format(name=users.get_a_name(message.get_user_id()))),
+                               lines.bot_lines_beach).format(name=users.get_a_name(message.get_user_id())),
                            attachments=[
                                {
                                    "fallback": "back to work",

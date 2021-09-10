@@ -51,7 +51,7 @@ def __schedule_messages() -> Observable:
 
     # jobs
     __weekday_job(__dispatch_message(bot_scheduled.good_morning_message, always()), '07:00')
-    __weekday_job(__dispatch_message(bot_scheduled.good_morning_hall_pass_message, chance(100)), '07:01')
+    __weekday_job(__dispatch_message(bot_scheduled.good_morning_hall_pass_message, chance(10)), '07:01')
     __weekday_job(__dispatch_message(bot_scheduled.pre_stand_up_message, chance(50)), '10:30')
     __weekday_job(__dispatch_message(bot_scheduled.noon_message, always()), '12:00')
     __weekday_job(__dispatch_message(bot_scheduled.good_night_message, always()), '18:00')
