@@ -8,6 +8,7 @@ from rx import operators as ops
 from rx.subject import Subject
 
 import helpers
+import messages.bot_scheduled_messages as bot_scheduled
 from messages.messages_map import get_messages
 from models.messages import RequestMessage, ResponseMessage
 
@@ -48,13 +49,12 @@ def __schedule_messages() -> Observable:
         if t is not None and week < 5:
             schedule.every().day.at(t).do(x)
 
-    import messages.bot_messages as bot
-
     # jobs
-    __weekday_job(__dispatch_message(bot.good_morning_message, always()), '07:00')
-    __weekday_job(__dispatch_message(bot.pre_stand_up_message, chance(50)), '10:30')
-    __weekday_job(__dispatch_message(bot.noon_message, always()), '12:00')
-    __weekday_job(__dispatch_message(bot.good_night_message, always()), '18:00')
+    __weekday_job(__dispatch_message(bot_scheduled.good_morning_message, always()), '07:00')
+    __weekday_job(__dispatch_message(bot_scheduled.good_morning_hall_pass_message, chance(100)), '07:01')
+    __weekday_job(__dispatch_message(bot_scheduled.pre_stand_up_message, chance(50)), '10:30')
+    __weekday_job(__dispatch_message(bot_scheduled.noon_message, always()), '12:00')
+    __weekday_job(__dispatch_message(bot_scheduled.good_night_message, always()), '18:00')
 
     return subject
 

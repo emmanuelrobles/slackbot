@@ -1,7 +1,7 @@
 import re
 
 import messages.bot_message_cases as cases
-import messages.bot_messages as bot
+import messages.bot_response_messages as bot
 from models.messages import RequestMessage
 
 

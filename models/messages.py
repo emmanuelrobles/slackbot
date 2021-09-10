@@ -36,9 +36,9 @@ class ResponseMessage:
     __channel: str
     __message_type: ResponseMessageType
     __event: dict
-    __attachments: [(str,str)]
+    __attachments: [{}]
 
-    def __init__(self, text: str, channel: str, message_type: ResponseMessageType, event: dict = None,attachments: [(str,str)]=None):
+    def __init__(self, text: str, channel: str, message_type: ResponseMessageType, event: dict = None,attachments: [{}]=None):
         self.__text = text
         self.__channel = channel
         self.__event = event
