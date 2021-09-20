@@ -94,3 +94,18 @@ def on_fire_line(message: RequestMessage) -> ResponseMessage:
                            )
 
 
+def ck_wisdom_line(message: RequestMessage) -> ResponseMessage:
+    return ResponseMessage(message_type=ResponseMessageType.MESSAGE,
+                           channel=message.get_channel(),
+                           text=random.choice(lines.bot_ck_wisdom).format(
+                               name=users.get_a_name(users.UsersEnums.CK)),
+                           attachments=[
+                               {
+                                   "fallback": "wisdom",
+                                   "image_url": "https://media3.giphy.com/media/MwcsfvzcMUMNyTPyXJ/giphy.gif?cid"
+                                                "=790b761143995560fc87ed6593ff4d988fb9ab72546d0073&rid=giphy.gif&ct=g "
+                               }
+                           ]
+                           )
+
+

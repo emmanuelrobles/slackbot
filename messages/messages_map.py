@@ -18,6 +18,7 @@ def get_messages(message: RequestMessage) -> [(callable, callable)]:
         (message_func(cases.case_picture_mad_line), message_func(bot.bot_pic_mad_line)),
         (message_func(cases.case_bug_found_line), message_func(bot.bug_found_line)),
         (message_func(cases.case_on_fire_line), message_func(bot.on_fire_line)),
+        (message_func(cases.case_ck_wisdom), message_func(bot.ck_wisdom_line)),
     ]
 
 

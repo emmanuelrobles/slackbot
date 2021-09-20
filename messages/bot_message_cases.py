@@ -51,3 +51,7 @@ def case_bug_found_line(message: RequestMessage) -> bool:
 
 def case_on_fire_line(message: RequestMessage) -> bool:
     return bool(__is_regex_search(r'^(?=.*\b(all|everything|this shit)\b)(?=.*\b(fire|bad)\b).*$', message.get_text()))
+
+
+def case_ck_wisdom(message: RequestMessage) -> bool:
+    return bool(__is_regex_search(r'^(?=.*\b(ck|cornelius)\b)(?=.*\b(wisdom|knowledge)\b).*$', message.get_text()))
