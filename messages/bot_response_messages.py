@@ -102,8 +102,8 @@ def ck_wisdom_line(message: RequestMessage) -> ResponseMessage:
                            attachments=[
                                {
                                    "fallback": "wisdom",
-                                   "image_url": "https://media3.giphy.com/media/MwcsfvzcMUMNyTPyXJ/giphy.gif?cid"
-                                                "=790b761143995560fc87ed6593ff4d988fb9ab72546d0073&rid=giphy.gif&ct=g "
+                                   "image_url": "https://media0.giphy.com/media/izfDqKsq0OwG2uTQZO/giphy.gif?cid"
+                                                "=790b7611dce39ec16e8c70c370dad4a72439f78e5714fa92&rid=giphy.gif&ct=g "
                                }
                            ]
                            )
